@@ -1,0 +1,41 @@
+{
+  "config": {
+    "dataset_name": "Yelp/yelp_review_full",
+    "num_classes": 5,
+    "subset_size": 50000,
+    "train_frac": 0.8,
+    "val_frac": 0.1,
+    "test_frac": 0.1,
+    "seed": 42,
+    "split_dir": "data/splits"
+  },
+  "config_hash": "bf867efc8dd5",
+  "sizes": {
+    "train": 40000,
+    "val": 5000,
+    "test": 5000
+  },
+  "class_counts": {
+    "train": {
+      "0": 8000,
+      "1": 8000,
+      "2": 8000,
+      "3": 8000,
+      "4": 8000
+    },
+    "val": {
+      "0": 1000,
+      "1": 1000,
+      "2": 1000,
+      "3": 1000,
+      "4": 1000
+    },
+    "test": {
+      "0": 1000,
+      "1": 1000,
+      "2": 1000,
+      "3": 1000,
+      "4": 1000
+    }
+  }
+}

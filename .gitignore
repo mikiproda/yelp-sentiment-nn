@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# Data & model artifacts (regenerated from code; too large for git)
+data/splits/*.parquet
+data/splits/vocab.json
+results/checkpoints/
+*.pt
+
+# Keep the split metadata so the exact split is documented in git
+!data/splits/meta.json
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/
+.idea/
+.vscode/
+
+# HF / datasets cache (if pointed locally)
+.cache/
