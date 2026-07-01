@@ -101,10 +101,37 @@ def run_rnn(model_key: str, args) -> None:
 
 
 def run_hf(model_key: str, args) -> None:
-    raise NotImplementedError(
-        f"'{model_key}' is implemented in milestone M4/M5 (train_hf.py). "
-        "Currently available: lstm, bilstm."
+    from dataclasses import replace as _replace
+
+    from nm_sentiment.config import HFConfig
+    from nm_sentiment.evaluate import save_results
+    from nm_sentiment.plots import make_all_figures
+    from nm_sentiment.train_hf import train_hf
+
+    data_cfg = DataConfig()
+    cfg = _replace(HFConfig(), model_name=HF_MODELS[model_key])
+    set_seed(cfg.seed)
+
+    splits = load_splits(data_cfg.split_dir)
+    assert splits.meta["config_hash"] == config_hash(data_cfg), (
+        "Split on disk does not match current DataConfig — rebuild with prepare_data.py"
     )
+
+    if args.smoke:
+        splits.train = _maybe_smoke(splits.train, args.smoke, cfg.seed)
+        splits.val = _maybe_smoke(splits.val, max(args.smoke // 8, data_cfg.num_classes), cfg.seed)
+
+    print(f"[{model_key}] model={cfg.model_name} train={len(splits.train)} "
+          f"val={len(splits.val)} test={len(splits.test)} max_len={cfg.max_len}")
+
+    results = train_hf(cfg, data_cfg, splits, output_dir=f"results/checkpoints/{model_key}")
+
+    out = save_results(results, "results/metrics")
+    figs = make_all_figures(results, "results/figures")
+    tm = results["test_metrics"]
+    print(f"\n[{model_key}] TEST  acc={tm['accuracy']:.4f}  "
+          f"P={tm['precision_macro']:.4f}  R={tm['recall_macro']:.4f}  F1={tm['f1_macro']:.4f}")
+    print(f"[{model_key}] saved {out} and {[str(f) for f in figs]}")
 
 
 def main() -> None:
