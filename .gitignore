@@ -23,3 +23,6 @@ results/checkpoints/
 
 # HF / datasets cache (if pointed locally)
 .cache/
+
+# Raw downloaded result bundles from Kaggle
+*.zip
