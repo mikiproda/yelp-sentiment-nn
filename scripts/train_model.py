@@ -53,7 +53,7 @@ def run_rnn(model_key: str, args) -> None:
     from nm_sentiment.vocab import build_vocab
 
     data_cfg = DataConfig()
-    cfg = replace(RNNConfig(), bidirectional=RNN_MODELS[model_key])
+    cfg = replace(RNNConfig(), bidirectional=RNN_MODELS[model_key], seed=args.seed)
     set_seed(cfg.seed)
 
     splits = load_splits(data_cfg.split_dir)
@@ -93,11 +93,19 @@ def run_rnn(model_key: str, args) -> None:
     )
 
     out = save_results(results, "results/metrics")
-    figs = make_all_figures(results, "results/figures")
+    figs = _figures_if_canonical(results, cfg.seed, data_cfg.seed)
     tm = metrics["test_metrics"]
     print(f"\n[{model_key}] TEST  acc={tm['accuracy']:.4f}  "
           f"P={tm['precision_macro']:.4f}  R={tm['recall_macro']:.4f}  F1={tm['f1_macro']:.4f}")
-    print(f"[{model_key}] saved {out} and {[str(f) for f in figs]}")
+    print(f"[{model_key}] saved {out}" + (f" and {figs}" if figs else " (figures skipped: non-canonical seed)"))
+
+
+def _figures_if_canonical(results, seed, canonical_seed):
+    """Generate figures only for the canonical seed to keep one clean report set."""
+    from nm_sentiment.plots import make_all_figures
+    if seed != canonical_seed:
+        return None
+    return [str(f) for f in make_all_figures(results, "results/figures")]
 
 
 def run_hf(model_key: str, args) -> None:
@@ -105,11 +113,10 @@ def run_hf(model_key: str, args) -> None:
 
     from nm_sentiment.config import HFConfig
     from nm_sentiment.evaluate import save_results
-    from nm_sentiment.plots import make_all_figures
     from nm_sentiment.train_hf import train_hf
 
     data_cfg = DataConfig()
-    cfg = _replace(HFConfig(), model_name=HF_MODELS[model_key])
+    cfg = _replace(HFConfig(), model_name=HF_MODELS[model_key], seed=args.seed)
     set_seed(cfg.seed)
 
     splits = load_splits(data_cfg.split_dir)
@@ -127,11 +134,11 @@ def run_hf(model_key: str, args) -> None:
     results = train_hf(cfg, data_cfg, splits, output_dir=f"results/checkpoints/{model_key}")
 
     out = save_results(results, "results/metrics")
-    figs = make_all_figures(results, "results/figures")
+    figs = _figures_if_canonical(results, cfg.seed, data_cfg.seed)
     tm = results["test_metrics"]
     print(f"\n[{model_key}] TEST  acc={tm['accuracy']:.4f}  "
           f"P={tm['precision_macro']:.4f}  R={tm['recall_macro']:.4f}  F1={tm['f1_macro']:.4f}")
-    print(f"[{model_key}] saved {out} and {[str(f) for f in figs]}")
+    print(f"[{model_key}] saved {out}" + (f" and {figs}" if figs else " (figures skipped: non-canonical seed)"))
 
 
 def main() -> None:
@@ -139,6 +146,9 @@ def main() -> None:
     parser.add_argument("--model", required=True, choices=[*RNN_MODELS, *HF_MODELS])
     parser.add_argument("--smoke", type=int, default=0,
                         help="If >0, train on a small balanced subset to validate the loop.")
+    parser.add_argument("--seed", type=int, default=42,
+                        help="Training seed (weight init + shuffling). The data split is "
+                             "fixed at DataConfig.seed regardless, so seeds stay comparable.")
     parser.add_argument("--device", type=str, default=None, help="cuda | cpu (default: auto).")
     args = parser.parse_args()
 

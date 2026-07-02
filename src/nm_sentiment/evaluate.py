@@ -84,9 +84,10 @@ def build_results(model_name, cfg, history, metrics, *, seed, device, extra=None
 
 
 def save_results(results: dict, metrics_dir: str) -> Path:
+    """Write ``<model>_seed<seed>.json`` so multiple seeds coexist for aggregation."""
     out = Path(metrics_dir)
     out.mkdir(parents=True, exist_ok=True)
-    path = out / f"{results['model']}.json"
+    path = out / f"{results['model']}_seed{results['seed']}.json"
     with open(path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
     return path
