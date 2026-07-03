@@ -1,0 +1,129 @@
+{
+  "model": "roberta",
+  "seed": 7,
+  "device": "cuda",
+  "config": {
+    "model_name": "roberta-base",
+    "max_len": 256,
+    "batch_size": 16,
+    "lr": 2e-05,
+    "epochs": 3,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "fp16": true,
+    "seed": 7
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.915171875,
+      "train_acc": null,
+      "val_loss": 1.629626750946045,
+      "val_acc": 0.6438
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.441146875,
+      "train_acc": null,
+      "val_loss": 1.6129893064498901,
+      "val_acc": 0.6614
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.20967373046875,
+      "train_acc": null,
+      "val_loss": 1.6669074296951294,
+      "val_acc": 0.6622
+    }
+  ],
+  "timestamp": "2026-07-02T22:44:10.533807+00:00",
+  "test_metrics": {
+    "accuracy": 0.6658,
+    "precision_macro": 0.6628121687135253,
+    "recall_macro": 0.6658,
+    "f1_macro": 0.6632875664966033
+  },
+  "classification_report": {
+    "0": {
+      "precision": 0.7408376963350786,
+      "recall": 0.849,
+      "f1-score": 0.7912395153774464,
+      "support": 1000.0
+    },
+    "1": {
+      "precision": 0.6265690376569037,
+      "recall": 0.599,
+      "f1-score": 0.6124744376278118,
+      "support": 1000.0
+    },
+    "2": {
+      "precision": 0.6239130434782608,
+      "recall": 0.574,
+      "f1-score": 0.5979166666666667,
+      "support": 1000.0
+    },
+    "3": {
+      "precision": 0.5763052208835341,
+      "recall": 0.574,
+      "f1-score": 0.5751503006012024,
+      "support": 1000.0
+    },
+    "4": {
+      "precision": 0.7464358452138493,
+      "recall": 0.733,
+      "f1-score": 0.739656912209889,
+      "support": 1000.0
+    },
+    "accuracy": 0.6658,
+    "macro avg": {
+      "precision": 0.6628121687135253,
+      "recall": 0.6658,
+      "f1-score": 0.6632875664966033,
+      "support": 5000.0
+    },
+    "weighted avg": {
+      "precision": 0.6628121687135253,
+      "recall": 0.6658,
+      "f1-score": 0.6632875664966031,
+      "support": 5000.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      849,
+      131,
+      15,
+      0,
+      5
+    ],
+    [
+      257,
+      599,
+      131,
+      13,
+      0
+    ],
+    [
+      28,
+      203,
+      574,
+      174,
+      21
+    ],
+    [
+      6,
+      19,
+      178,
+      574,
+      223
+    ],
+    [
+      6,
+      4,
+      22,
+      235,
+      733
+    ]
+  ],
+  "train_size": 40000
+}

@@ -1,0 +1,129 @@
+{
+  "model": "roberta",
+  "seed": 123,
+  "device": "cuda",
+  "config": {
+    "model_name": "roberta-base",
+    "max_len": 256,
+    "batch_size": 16,
+    "lr": 2e-05,
+    "epochs": 3,
+    "weight_decay": 0.01,
+    "warmup_ratio": 0.1,
+    "fp16": true,
+    "seed": 123
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.9279681640625,
+      "train_acc": null,
+      "val_loss": 1.6376351118087769,
+      "val_acc": 0.6386
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.4532677734375,
+      "train_acc": null,
+      "val_loss": 1.608750343322754,
+      "val_acc": 0.6562
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.21599033203125,
+      "train_acc": null,
+      "val_loss": 1.6815605163574219,
+      "val_acc": 0.6588
+    }
+  ],
+  "timestamp": "2026-07-02T20:47:41.397707+00:00",
+  "test_metrics": {
+    "accuracy": 0.6644,
+    "precision_macro": 0.6618729906312585,
+    "recall_macro": 0.6644,
+    "f1_macro": 0.6592847968836963
+  },
+  "classification_report": {
+    "0": {
+      "precision": 0.7774594078319007,
+      "recall": 0.814,
+      "f1-score": 0.7953102100635075,
+      "support": 1000.0
+    },
+    "1": {
+      "precision": 0.620253164556962,
+      "recall": 0.637,
+      "f1-score": 0.6285150468672915,
+      "support": 1000.0
+    },
+    "2": {
+      "precision": 0.6581769436997319,
+      "recall": 0.491,
+      "f1-score": 0.5624284077892325,
+      "support": 1000.0
+    },
+    "3": {
+      "precision": 0.5665983606557377,
+      "recall": 0.553,
+      "f1-score": 0.5597165991902834,
+      "support": 1000.0
+    },
+    "4": {
+      "precision": 0.6868770764119602,
+      "recall": 0.827,
+      "f1-score": 0.7504537205081669,
+      "support": 1000.0
+    },
+    "accuracy": 0.6644,
+    "macro avg": {
+      "precision": 0.6618729906312585,
+      "recall": 0.6644,
+      "f1-score": 0.6592847968836963,
+      "support": 5000.0
+    },
+    "weighted avg": {
+      "precision": 0.6618729906312585,
+      "recall": 0.6644,
+      "f1-score": 0.6592847968836965,
+      "support": 5000.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      814,
+      164,
+      15,
+      4,
+      3
+    ],
+    [
+      208,
+      637,
+      129,
+      20,
+      6
+    ],
+    [
+      17,
+      210,
+      491,
+      239,
+      43
+    ],
+    [
+      3,
+      15,
+      104,
+      553,
+      325
+    ],
+    [
+      5,
+      1,
+      7,
+      160,
+      827
+    ]
+  ],
+  "train_size": 40000
+}
